@@ -1,0 +1,31 @@
+---
+import Card from "../components/Card.astro";
+import { urlsTMDB } from "../js/ApiMovie";
+import { type MoviesUpComing, type Result } from "../types/moviesTypes";
+
+const url = urlsTMDB.baseUrl + "/movie/upcoming" + urlsTMDB.keyApi;
+let listMovies: Result[] = [];
+
+try {
+  const res = await fetch(url);
+  const data = await res.json();
+  listMovies = data.results || [];
+} catch (error) {
+  console.error("Algo ha salido mal");
+}
+---
+
+<section>
+  <h2>Proximamente</h2>
+  <div class="grid grid-cols-5 gap-10">
+    {
+      listMovies.map((movie) => (
+        <Card
+          title={movie.title}
+          details={movie.overview}
+          poster={movie.poster_path}
+        />
+      ))
+    }
+  </div>
+</section>

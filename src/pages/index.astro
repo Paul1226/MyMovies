@@ -1,7 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import MoviesPopulars from "../sections/MoviesPopulars.astro";
+import MoviesUpComing from "../sections/MoviesUpComing.astro";
+import FrontPage from "../components/FrontPage.astro";
 ---
 
 <Layout title="My movies - Practicing the call to APIS">
-  <main></main>
+  <main class="">
+    <div class="flex flex-col gap-y-8">
+      <FrontPage />
+      <MoviesPopulars />
+      <MoviesUpComing />
+    </div>
+  </main>
 </Layout>

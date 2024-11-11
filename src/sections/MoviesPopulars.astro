@@ -1,0 +1,41 @@
+---
+import Card from "../components/Card.astro";
+import { urlsTMDB } from "../js/ApiMovie";
+
+// typeScript
+import { type MoviesPopulares, type Result } from "../types/moviesTypes";
+
+const popularsMoviesLink = "/movie/popular";
+const baseUrl =
+  urlsTMDB.baseUrl +
+  popularsMoviesLink +
+  urlsTMDB.keyApi +
+  "&language=es-MX&sort_by=popularity.desc";
+let listMovies: Result[] = [];
+
+try {
+  const res = await fetch(baseUrl);
+  const dataMovies = (await res.json()) as MoviesPopulares;
+  listMovies = dataMovies.results || [];
+} catch (error) {
+  console.log("error: algo salio mal");
+}
+---
+
+<section class="px-8">
+  <h2>Movies Populars</h2>
+  <div
+    class="grid gap-4"
+    style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));"
+  >
+    {
+      listMovies.length > 0 ? (
+        listMovies.map(({ title, overview, poster_path }) => (
+          <Card title={title} details={overview} poster={poster_path} />
+        ))
+      ) : (
+        <p>No se encontraron resultados</p>
+      )
+    }
+  </div>
+</section>

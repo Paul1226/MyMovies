@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  details: string;
+  poster: string;
+}
+
+const { title, details, poster } = Astro.props;
+
+const urlApiImage = `https://image.tmdb.org/t/p/w500${poster}`;
+---
+
+<article
+  class="p-2 rounded-xl shadow-[0_0_15px_#02061740] hover:shadow-[0_0_15px_#02061790] transition-shadow duration-300 ease-in-out"
+>
+  <a class="group" href="#">
+    <figure class="rounded-lg overflow-hidden">
+      <img
+        class="transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:brightness-[.3]"
+        src={urlApiImage}
+        alt=`Poster de ${title}`
+        loading="lazy"
+      />
+    </figure>
+
+    <div class="flex flex-col gap-4">
+      <h3 class="text-sm font-semibold py-2 truncate">{title}</h3>
+      <!-- <p>{details}</p> -->
+    </div>
+  </a>
+</article>

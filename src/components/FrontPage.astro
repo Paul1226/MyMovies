@@ -1,0 +1,54 @@
+---
+import { type MoviesPopulares, type Result } from "../types/moviesTypes";
+import { urlsTMDB } from "../js/ApiMovie";
+const numberRandom = Math.floor(Math.random() * 10) + 1;
+
+const UrlMovieFrontPage =
+  urlsTMDB.baseUrl +
+  `/movie/popular` +
+  urlsTMDB.keyApi +
+  "&language=es-MX&sort_by=popularity.desc";
+let listMovies: Result[] = [];
+let movieSelected;
+
+try {
+  const res = await fetch(UrlMovieFrontPage);
+  const dataMovies = (await res.json()) as MoviesPopulares;
+  listMovies = dataMovies.results || [];
+  movieSelected = listMovies[numberRandom];
+} catch (error) {
+  console.log("error: algo salio mal");
+}
+---
+
+<div class="flex justify-center items-center">
+  <figure class="w-full h-full max-w-[1080px] relative">
+    <div class="absolute inset-0 pointer-events-none bg-mask z-10"></div>
+    <img
+      class="w-full h-full object-cover aspect-video md:aspect-[16/7]"
+      style="mask-image: linear-gradient(black 20%, transparent);"
+      src=`${urlsTMDB.imgUrl}${movieSelected?.backdrop_path}`
+      alt=`Front Page - ${movieSelected?.title}`
+      loading="lazy"
+    />
+    <div class="texts absolute z-10 bottom-4 left-0 w-full max-w-[800px] px-8">
+      <span class="text-3xl font-semibold pb-4 block"
+        >{movieSelected?.title}</span
+      >
+      <p class="text-sm">{movieSelected?.overview}</p>
+    </div>
+  </figure>
+</div>
+
+<style>
+  .bg-mask {
+    background: rgb(30, 41, 59);
+    background: linear-gradient(
+      90deg,
+      rgba(30, 41, 59, 1) 0%,
+      rgba(255, 255, 255, 0) 15%,
+      rgba(255, 255, 255, 0) 85%,
+      rgba(30, 41, 59, 1) 100%
+    );
+  }
+</style>

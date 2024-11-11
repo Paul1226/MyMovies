@@ -1,0 +1,23 @@
+---
+import SearchMovies from "../components/SearchMovies.astro";
+---
+
+<header class="px-10 py-5 sticky top-0 z-50 bg-slate-800">
+  <div class="flex items-center justify-between">
+    <div class="logo">
+      <a class="font-semibold text-xl" href="/">
+        My<span class="text-cyan-400">Movies</span><span class="text-xs"
+          >.com</span
+        >
+      </a>
+    </div>
+
+    <!-- buscador -->
+    <SearchMovies />
+  </div>
+</header>
+
+<style>
+  header {
+  }
+</style>

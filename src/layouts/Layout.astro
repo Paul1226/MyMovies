@@ -7,6 +7,9 @@ const { title } = Astro.props;
 
 // fonts
 import "@fontsource-variable/montserrat";
+
+// components
+import Headers from "../sections/Headers.astro";
 ---
 
 <!doctype html>
@@ -20,12 +23,33 @@ import "@fontsource-variable/montserrat";
     <title>{title}</title>
   </head>
   <body>
+    <Headers />
     <slot />
   </body>
 </html>
 
-<style>
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body {
     font-family: "Montserrat Variable", sans-serif;
+    /* @apply bg-slate-800; */
+    background-color: #1e293b;
+    color: white;
+    font-weight: 300;
+  }
+
+  html {
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    scrollbar-color: #155e75 #1e293b;
+  }
+
+  h2 {
+    font-size: 42px;
+    font-weight: 600;
   }
 </style>
