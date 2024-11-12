@@ -1,6 +1,7 @@
 ---
 import Card from "../components/Card.astro";
 import { urlsTMDB } from "../js/ApiMovie";
+import TitleSections from "../components/TitleSections.astro";
 
 // typeScript
 import { type MoviesPopulares, type Result } from "../types/moviesTypes";
@@ -23,10 +24,10 @@ try {
 ---
 
 <section class="px-8">
-  <h2>Movies Populars</h2>
+  <TitleSections title="Películas Populares" />
   <div
     class="grid gap-4"
-    style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));"
+    style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));"
   >
     {
       listMovies.length > 0 ? (

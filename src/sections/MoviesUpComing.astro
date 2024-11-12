@@ -2,6 +2,7 @@
 import Card from "../components/Card.astro";
 import { urlsTMDB } from "../js/ApiMovie";
 import { type MoviesUpComing, type Result } from "../types/moviesTypes";
+import TitleSections from "../components/TitleSections.astro";
 
 const url = urlsTMDB.baseUrl + "/movie/upcoming" + urlsTMDB.keyApi;
 let listMovies: Result[] = [];
@@ -16,8 +17,11 @@ try {
 ---
 
 <section>
-  <h2>Proximamente</h2>
-  <div class="grid grid-cols-5 gap-10">
+  <TitleSections title="Proximamente" />
+  <div
+    class="grid gap-4"
+    style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));"
+  >
     {
       listMovies.map((movie) => (
         <Card

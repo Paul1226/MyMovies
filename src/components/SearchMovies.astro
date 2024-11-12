@@ -2,4 +2,165 @@
 
 ---
 
-<div class="search"></div>
+<div class="container-search relative w-fit">
+  <input
+    checked=""
+    class="checkbox size-[30px] absolute top-[10px] right-[17px] z-[9] cursor-pointer appearance-none focus:border-none focus:outline-none checked:right-[10px]"
+    type="checkbox"
+  />
+  <div
+    class="mainbox relative w-full max-w-[400px] h-[50px] flex flex-row-reverse items-center justify-center rounded-full transition-all duration-300 ease-linear bg-slate-950"
+  >
+    <div class="iconContainer w-fit transition-all duration-300 ease-linear">
+      <svg
+        viewBox="0 0 512 512"
+        height="1em"
+        xmlns="http://www.w3.org/2000/svg"
+        class="search_icon fill-white text-lg"
+        ><path
+          d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+        ></path></svg
+      >
+    </div>
+    <input
+      class="search_input h-full w-[80%] bg-transparent border-none outline-none pb-1 pl-[10px] text-base text-white transition-all duration-300 ease-linear placeholder:text-white/70"
+      placeholder="search"
+      type="text"
+      id="search_input"
+    />
+  </div>
+</div>
+
+<style>
+  .checkbox:checked ~ .mainbox {
+    width: 50px;
+  }
+
+  .checkbox:checked ~ .mainbox .search_input {
+    width: 0;
+    height: 0px;
+  }
+
+  .checkbox:checked ~ .mainbox .iconContainer {
+    padding-right: 10px;
+  }
+</style>
+
+<script>
+  import { urlsTMDB } from "../js/ApiMovie";
+  import { type Result } from "../types/moviesTypes";
+
+  const $searchInput = document.querySelector(
+    "#search_input"
+  ) as HTMLInputElement;
+
+  function searchMovie(e: KeyboardEvent) {
+    if (e.key === "Enter") {
+      const valueInput = (e.target as HTMLInputElement).value;
+
+      // ejecutar funcion de buscador con APIMOVIE
+      foundMovies(valueInput);
+      window.scrollTo(0, 0);
+    }
+  }
+
+  async function foundMovies(word: string) {
+    let resultMovies: Result[] = [];
+    const urlBaseFoundMovie =
+      urlsTMDB.baseUrl + `/search/movie?query=${word}` + urlsTMDB.keyApiSearch;
+
+    try {
+      const res = await fetch(urlBaseFoundMovie);
+      const dataMovies = await res.json();
+      resultMovies = dataMovies.results;
+      createSectionSearch(word, resultMovies);
+      // addMoviesSection(resultMovies);
+    } catch (error) {
+      console.error("Algo salio mal");
+    }
+  }
+
+  function createSectionSearch(word: string, listMovies: Result[]) {
+    const $main = document.querySelector(
+      ".container_section"
+    ) as HTMLDivElement;
+    const createSection = document.createElement("section");
+
+    if ($main.querySelector(".section_founds")) {
+      const $section = $main.querySelector(".section_founds") as HTMLElement;
+      $section.innerHTML = "";
+      addElementsSection($section, word, listMovies);
+    } else {
+      createSection.classList.add("section_founds");
+      addElementsSection(createSection, word, listMovies);
+      $main.prepend(createSection);
+    }
+  }
+
+  function addElementsSection(
+    section: HTMLElement,
+    word: string,
+    listMovies: Result[]
+  ) {
+    const title = document.createElement("h2");
+    const containerMoviesFounds = document.createElement("div");
+
+    // title
+    title.textContent = `Resultados de "${word}"`;
+    title.classList.add("text-3xl", "font-bold", "pb-8");
+    section.appendChild(title);
+
+    // container-movies
+    containerMoviesFounds.classList.add("grid", "gap-4");
+    containerMoviesFounds.style.gridTemplateColumns =
+      "repeat(auto-fill, minmax(150px, 1fr))";
+    section.appendChild(containerMoviesFounds);
+    addMoviesSection(listMovies, containerMoviesFounds);
+  }
+
+  function addMoviesSection(
+    listMovies: Result[],
+    sectionContainer: HTMLElement
+  ) {
+    listMovies.map(({ title, poster_path }) => {
+      // creacion de cards para cada movie
+      createCardMovie(title, poster_path, sectionContainer);
+    });
+  }
+
+  function createCardMovie(
+    title: string,
+    poster: string,
+    section: HTMLElement
+  ) {
+    const articleMovie = document.createElement("article");
+    articleMovie.innerHTML = "";
+    articleMovie.classList.add(
+      "p-2",
+      "rounded-xl",
+      "shadow-[0_0_15px_#02061740]",
+      "hover:shadow-[0_0_15px_#02061790]",
+      "transition-shadow",
+      "duration-300",
+      "ease-in-out"
+    );
+    articleMovie.innerHTML = `
+        <a class="group" href="#">
+          <figure class="rounded-lg overflow-hidden">
+            <img
+              class="transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:brightness-[.3]"
+              src="https://image.tmdb.org/t/p/w500${poster}"
+              alt="Poster de ${title}"
+              loading="lazy"
+            />
+          </figure>
+
+          <div class="flex flex-col gap-4">
+            <h3 class="text-sm font-semibold py-2 truncate">${title}</h3>
+          </div>
+        </a>
+      `;
+    section.appendChild(articleMovie);
+  }
+  $searchInput?.addEventListener("keydown", searchMovie);
+</script>

@@ -2,10 +2,10 @@
 import SearchMovies from "../components/SearchMovies.astro";
 ---
 
-<header class="px-10 py-5 sticky top-0 z-50 bg-slate-800">
+<header class="px-10 py-5 sticky top-0 left-0 z-50 bg-slate-800">
   <div class="flex items-center justify-between">
     <div class="logo">
-      <a class="font-semibold text-xl" href="/">
+      <a class="font-semibold text-2xl" href="/">
         My<span class="text-cyan-400">Movies</span><span class="text-xs"
           >.com</span
         >
@@ -18,6 +18,17 @@ import SearchMovies from "../components/SearchMovies.astro";
 </header>
 
 <style>
+  @keyframes enhance-header {
+    100% {
+      background-color: #1e293b80;
+      backdrop-filter: blur(0.5rem);
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 10px 15px #00000060;
+    }
+  }
   header {
+    animation: enhance-header linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100px;
   }
 </style>
