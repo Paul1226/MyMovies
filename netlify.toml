@@ -1,2 +1,2 @@
 [build]
-  node_version = "16"  # Puedes usar una versión estable y ampliamente disponible
+  node_version = "18.14.1"  # Puedes usar una versión estable y ampliamente disponible
