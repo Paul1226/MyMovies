@@ -1,0 +1,2 @@
+[build]
+  node_version = "18.18.0"  # Puedes usar una versión estable y ampliamente disponible
