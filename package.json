@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "18.18.0"
+    "node": "16"
   },
   "name": "mymovies",
   "type": "module",
